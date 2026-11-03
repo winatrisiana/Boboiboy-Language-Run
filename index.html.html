@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BoBoiBoy Language Run — Bahasa Melayu Tahun 5</title>
+<style>
+:root{--navy:#123b70;--blue:#1687d9;--sky:#8de3ff;--gold:#ffd34e;--ink:#17324f;--paper:#fffdf5;--pink:#ff82b2;--green:#39c98b}
+*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:linear-gradient(160deg,#8de3ff,#dff9ff 48%,#fff1c8);color:var(--ink);min-height:100vh}
+button{font:inherit;cursor:pointer;border:0;border-radius:14px;padding:11px 16px;font-weight:800;background:var(--gold);color:#533b00;box-shadow:0 4px 0 #d39c21}
+button:active{transform:translateY(3px);box-shadow:0 1px 0 #d39c21}
+button.secondary{background:#e8f5ff;color:#145083;box-shadow:0 4px 0 #a8d6f3}
+button:disabled{opacity:.45;cursor:not-allowed}
+.wrap{max-width:1050px;margin:auto;padding:16px}
+header{text-align:center;padding:12px 0 8px}
+h1{margin:0;color:#104a86;font-size:clamp(1.65rem,4vw,2.8rem);text-shadow:2px 3px 0 white}
+.sub{font-weight:800;color:#28648e}
+.panel{background:#ffffffdf;border:3px solid white;border-radius:24px;box-shadow:0 12px 30px #236b8b22;padding:18px;margin:12px 0}
+.hidden{display:none!important}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center}
+.hero-art{background:linear-gradient(#79dfff,#d7f9ff 60%,#6bd28f 61%);border-radius:20px;min-height:220px;display:grid;place-items:center;position:relative;overflow:hidden}
+.hero-art .island{font-size:clamp(5rem,14vw,9rem);filter:drop-shadow(0 8px 3px #256b6b55)}
+.hero-art:after{content:"☁️　☁️　☁️";position:absolute;top:15px;left:10px;font-size:2rem}
+.hero-art:before{content:"✨　🌴　✨";position:absolute;bottom:18px;right:12px;font-size:1.6rem}
+h2{color:#14558d;margin:0 0 10px}
+.small{font-size:.92rem;color:#42627b;line-height:1.5}
+.char-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0}
+.char{background:#f0f9ff;border:2px solid #c8eaff;border-radius:15px;padding:8px 4px;text-align:center;cursor:pointer}
+.char.selected{border-color:#ffb900;background:#fff6cf;box-shadow:0 0 0 3px #ffd84d55}
+.char .emoji{font-size:2rem;display:block}.char b{font-size:.82rem}
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.level{border-radius:16px;padding:13px;background:#eef8ff;border:2px solid #cceaff}
+.level:nth-child(2){background:#fff7df;border-color:#ffe09a}.level:nth-child(3){background:#f4edff;border-color:#d9c7ff}
+.level strong{display:block;color:#14558d}
+.game-top{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.stats{display:flex;gap:8px;flex-wrap:wrap}.pill{background:#e9f6ff;padding:7px 11px;border-radius:999px;font-weight:800;font-size:.9rem}
+#track{height:410px;position:relative;overflow:hidden;border-radius:22px;border:4px solid white;background:linear-gradient(#74d9ff 0%,#b9f0ff 45%,#82d879 46%,#36a65f 100%);margin-top:12px;touch-action:pan-y}
+.sun{position:absolute;right:9%;top:8%;font-size:3rem}
+.cloud{position:absolute;top:12%;left:8%;font-size:2.3rem}
+.mountains{position:absolute;top:30%;left:0;width:100%;text-align:center;font-size:3rem;opacity:.85}
+.road{position:absolute;bottom:-20px;left:15%;width:70%;height:76%;background:linear-gradient(90deg,#9c744e,#d2a06a 50%,#9c744e);clip-path:polygon(43% 0,57% 0,100% 100%,0 100%)}
+.lane-line{position:absolute;bottom:0;height:70%;width:3px;background:#fff8;transform-origin:bottom}
+.lane-line.l{left:43%;transform:rotate(9deg)}.lane-line.r{right:43%;transform:rotate(-9deg)}
+#items{position:absolute;inset:0}
+.item{position:absolute;left:50%;top:35%;transform:translate(-50%,-50%);font-weight:900;text-align:center;white-space:nowrap;border:3px solid white;border-radius:13px;padding:7px 11px;background:#fff5b8;color:#553e00;box-shadow:0 5px 0 #bd8e35;animation:none}
+.item.obstacle{font-size:2.1rem;background:#ffdfec;padding:3px 12px}
+#runner{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);font-size:3.6rem;transition:left .13s;filter:drop-shadow(0 5px 2px #2345)}
+#runnerTag{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);font-size:.7rem;background:#fff;padding:2px 8px;border-radius:9px;font-weight:900;white-space:nowrap}
+.hud-note{position:absolute;top:10px;left:10px;background:#ffffffdf;padding:7px 10px;border-radius:12px;font-weight:800;font-size:.85rem}
+.controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.quiz{position:absolute;inset:0;background:#092d52d9;display:grid;place-items:center;padding:14px;z-index:5}
+.quiz-card{background:var(--paper);border:4px solid white;border-radius:22px;padding:18px;max-width:560px;width:100%;box-shadow:0 15px 40px #001b3d66}
+.quiz-card h3{margin:5px 0 12px;color:#14558d}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:9px}.answers button{background:#e9f6ff;color:#174d78;box-shadow:0 4px 0 #acd5ef;text-align:left}
+.answers button.correct{background:#d9ffeb;color:#11633d;box-shadow:0 4px 0 #76d6a6}
+.answers button.wrong{background:#ffe3e8;color:#a22b49;box-shadow:0 4px 0 #efa0b1}
+.feedback{margin-top:12px;padding:10px;border-radius:12px;background:#eef8ff;line-height:1.45}
+.progress{height:12px;background:#dbeefa;border-radius:99px;overflow:hidden;flex:1;min-width:100px}.progress span{display:block;height:100%;background:linear-gradient(90deg,#39c98b,#ffd34e);width:0}
+#result{text-align:center}.big{font-size:4rem}
+footer{text-align:center;color:#41627a;font-size:.82rem;padding:12px}
+@media(max-width:700px){.hero{grid-template-columns:1fr}.char-grid{grid-template-columns:repeat(3,1fr)}.levels{grid-template-columns:1fr}#track{height:390px}.answers{grid-template-columns:1fr}.panel{padding:13px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>🏃 BOBOIBOY LANGUAGE RUN ⚡</h1><div class="sub">Misi Menyelamatkan Planet Bahasa · Bahasa Melayu Tahun 5</div></header>
+
+<section id="home" class="panel">
+ <div class="hero">
+  <div>
+   <h2>Selamat datang, wira bahasa!</h2>
+   <p>Planet Bahasa sedang kacau-bilau! Bantu wira pilihan anda mengumpulkan perkataan yang betul, mengelakkan halangan dan menyelesaikan 30 cabaran tatabahasa.</p>
+   <p class="small"><b>Cara bermain:</b> Gerakkan watak ke kiri atau kanan untuk memilih lorong. Gunakan butang lompat dan gelongsor untuk mengelakkan halangan. Di setiap checkpoint, jawab soalan.</p>
+   <p class="small">Komputer: kekunci ← → ↑ ↓ atau A / D / W / S. Telefon: leret pada kawasan permainan atau gunakan butang kawalan.</p>
+  </div>
+  <div class="hero-art"><div class="island">🏝️</div></div>
+ </div>
+ <h2>① Pilih watak</h2>
+ <div class="char-grid" id="chars">
+  <div class="char selected" data-name="BoBoiBoy"><span class="emoji">⚡</span><b>BoBoiBoy</b></div>
+  <div class="char" data-name="Yaya"><span class="emoji">🌸</span><b>Yaya</b></div>
+  <div class="char" data-name="Gopal"><span class="emoji">🍔</span><b>Gopal</b></div>
+  <div class="char" data-name="Ying"><span class="emoji">💨</span><b>Ying</b></div>
+  <div class="char" data-name="Fang"><span class="emoji">🐉</span><b>Fang</b></div>
+  <div class="char" data-name="Ochobot"><span class="emoji">🤖</span><b>Ochobot</b></div>
+ </div>
+ <h2>② Pilih peringkat</h2>
+ <div class="levels">
+  <div class="level"><strong>🌳 Level 1 — Hutan Kata Nama</strong><span class="small">Mudah · Kenali Kata Nama Am</span></div>
+  <div class="level"><strong>🏙️ Level 2 — Bandar Kata Khas</strong><span class="small">Sederhana · Kenali Kata Nama Khas</span></div>
+  <div class="level"><strong>🏰 Level 3 — Istana Bahasa</strong><span class="small">Mencabar · Bezakan kedua-duanya</span></div>
+ </div>
+ <p class="small"><b>Jumlah:</b> 30 soalan (10 setiap level) · Masa: tanpa had · Jawapan salah disertai penerangan.</p>
+ <button id="start">🚀 Mula Misi</button>
+</section>
+
+<section id="game" class="panel hidden">
+ <div class="game-top">
+  <div class="stats"><span class="pill" id="levelLabel">LEVEL 1</span><span class="pill" id="score">⭐ 0</span><span class="pill" id="lives">❤️❤️❤️</span><span class="pill" id="coins">🪙 0</span></div>
+  <button class="secondary" id="pause">Ⅱ Jeda</button>
+ </div>
+ <div class="game-top" style="margin-top:10px"><b id="mission">Hutan Kata Nama</b><div class="progress"><span id="bar"></span></div><b id="qcount">0/30</b></div>
+ <div id="track">
+  <div class="sun">☀️</div><div class="cloud">☁️</div><div class="mountains">🌴　⛰️　🌴</div>
+  <div class="road"></div><div class="lane-line l"></div><div class="lane-line r"></div>
+  <div class="hud-note" id="hint">Kumpulkan Kata Nama Am!</div>
+  <div id="items"></div>
+  <div id="runner">⚡</div><div id="runnerTag">BoBoiBoy</div>
+  <div id="quizLayer" class="quiz hidden"></div>
+ </div>
+ <div class="controls">
+  <button class="secondary" id="left">⬅️ Kiri</button><button class="secondary" id="jump">⬆️ Lompat</button><button class="secondary" id="slide">⬇️ Gelongsor</button><button class="secondary" id="right">Kanan ➡️</button>
+ </div>
+ <p class="small" style="text-align:center">Petua: kutip token perkataan yang betul untuk mendapat markah. Elakkan halangan. Soalan muncul di checkpoint.</p>
+</section>
+
+<section id="result" class="panel hidden">
+ <div class="big">🏆</div><h2>Misi Planet Bahasa Selesai!</h2>
+ <p id="resultText"></p><div id="stars" style="font-size:2rem"></div>
+ <button id="again">🔄 Main Semula</button> <button class="secondary" id="back">Kembali ke menu</button>
+</section>
+<footer>Permainan pendidikan prototaip · Dibina untuk latihan Kata Nama Am dan Kata Nama Khas.</footer>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const questionBank=[
+// Level 1
+{l:1,q:"Yang manakah Kata Nama Am?",a:["Malaysia","kucing","Sarawak","Aiman"],c:1,e:"Kucing ialah nama haiwan secara umum. Malaysia, Sarawak dan Aiman ialah nama khusus."},
+{l:1,q:"Pilih Kata Nama Am bagi benda.",a:["pensel","Kuala Lumpur","Siti","Johor"],c:0,e:"Pensel ialah nama benda secara umum."},
+{l:1,q:"Perkataan 'guru' ialah...",a:["Kata Nama Khas","Kata Nama Am"],c:1,e:"Guru merujuk pekerjaan seseorang secara umum, jadi kata nama am."},
+{l:1,q:"Yang manakah nama tempat secara umum?",a:["sekolah","Sekolah Seri Murni","Kuching","Malaysia"],c:0,e:"Sekolah ialah nama tempat secara umum. Nama sekolah tertentu ialah kata nama khas."},
+{l:1,q:"Pilih Kata Nama Am.",a:["Si Tompok","buku","Ali","Sabah"],c:1,e:"Buku ialah nama benda secara umum."},
+{l:1,q:"Perkataan 'burung' merujuk...",a:["nama khusus seekor haiwan","haiwan secara umum"],c:1,e:"Burung ialah nama haiwan secara umum."},
+{l:1,q:"Yang manakah Kata Nama Am?",a:["Meja","Melaka","Yaya","Malaysia"],c:0,e:"Meja ialah nama benda secara umum."},
+{l:1,q:"Pilih perkataan yang bukan nama khusus.",a:["Gopal","Fang","bandar","Ying"],c:2,e:"Bandar ialah nama tempat secara umum."},
+{l:1,q:"'Murid' ialah kata nama yang merujuk...",a:["orang secara umum","nama seseorang yang khusus"],c:0,e:"Murid merujuk manusia secara umum."},
+{l:1,q:"Pilih kumpulan yang semuanya Kata Nama Am.",a:["guru, buku, kucing","Ali, buku, Sarawak","Malaysia, sekolah, Yaya","Kuching, guru, Siti"],c:0,e:"Guru, buku dan kucing ialah nama umum bagi manusia, benda dan haiwan."},
+// Level 2
+{l:2,q:"Yang manakah Kata Nama Khas?",a:["negeri","Sarawak","sekolah","guru"],c:1,e:"Sarawak ialah nama khusus sebuah negeri."},
+{l:2,q:"Pilih nama khas bagi manusia.",a:["doktor","kanak-kanak","Aina","murid"],c:2,e:"Aina ialah nama khusus seseorang."},
+{l:2,q:"Perkataan 'Malaysia' ialah...",a:["Kata Nama Am","Kata Nama Khas"],c:1,e:"Malaysia ialah nama khusus sebuah negara."},
+{l:2,q:"Yang manakah nama khas bagi tempat?",a:["bandar","taman","Kuching","sungai"],c:2,e:"Kuching ialah nama khusus sebuah bandar."},
+{l:2,q:"Pilih ejaan nama khas yang betul.",a:["ali","Ali","ALI","aLi"],c:1,e:"Nama orang bermula dengan huruf besar: Ali."},
+{l:2,q:"'Sekolah Kebangsaan Harmoni' ialah...",a:["nama sekolah yang khusus","nama tempat secara umum"],c:0,e:"Nama penuh sebuah sekolah tertentu ialah kata nama khas."},
+{l:2,q:"Yang manakah Kata Nama Khas?",a:["kucing","Si Tompok","haiwan","arnab"],c:1,e:"Si Tompok ialah nama khusus seekor haiwan."},
+{l:2,q:"Pilih nama khas bagi negeri.",a:["negeri","daerah","Johor","kampung"],c:2,e:"Johor ialah nama khusus sebuah negeri."},
+{l:2,q:"Perkataan 'Yaya' ialah...",a:["Kata Nama Am","Kata Nama Khas"],c:1,e:"Yaya ialah nama khusus watak."},
+{l:2,q:"Pilih kumpulan yang semuanya Kata Nama Khas.",a:["Malaysia, Ali, Kuching","negara, murid, bandar","buku, Sarawak, guru","sekolah, kucing, Aina"],c:0,e:"Malaysia, Ali dan Kuching masing-masing nama khusus negara, manusia dan bandar."},
+// Level 3
+{l:3,q:"Dalam ayat 'Aina membaca buku', yang manakah Kata Nama Khas?",a:["membaca","buku","Aina"],c:2,e:"Aina ialah nama khusus manusia. Buku ialah kata nama am."},
+{l:3,q:"Padanan yang betul ialah...",a:["negeri — Sarawak","manusia — guru","haiwan — kucing"],c:0,e:"Negeri ialah kata nama am; Sarawak ialah nama khusus negeri."},
+{l:3,q:"Dalam 'Si Tompok tidur di atas meja', yang manakah Kata Nama Am?",a:["Si Tompok","meja","kedua-duanya"],c:1,e:"Meja ialah nama benda secara umum. Si Tompok ialah nama khusus haiwan."},
+{l:3,q:"Pilih ayat yang menggunakan Kata Nama Khas dengan betul.",a:["saya tinggal di malaysia.","Saya tinggal di Malaysia.","Saya tinggal di malaysia."],c:1,e:"Nama negara Malaysia mesti bermula dengan huruf besar."},
+{l:3,q:"Perkataan 'Cikgu Farah' ialah nama khusus bagi...",a:["pekerjaan secara umum","seorang guru tertentu","semua guru"],c:1,e:"Cikgu Farah merujuk guru tertentu."},
+{l:3,q:"Dalam ayat 'Gopal membeli pensel', Kata Nama Am ialah...",a:["Gopal","membeli","pensel"],c:2,e:"Pensel ialah nama benda secara umum."},
+{l:3,q:"Pilih pasangan Kata Nama Am → Kata Nama Khas yang tepat.",a:["negara → Malaysia","Ali → manusia","Kuching → bandar"],c:0,e:"Negara ialah kata nama am, manakala Malaysia ialah nama khusus negara."},
+{l:3,q:"Yang manakah mengandungi satu Kata Nama Am dan satu Kata Nama Khas?",a:["buku dan meja","Ying dan Yaya","kucing dan Si Tompok"],c:2,e:"Kucing ialah nama haiwan secara umum; Si Tompok ialah nama khusus haiwan."},
+{l:3,q:"Dalam ayat 'Murid Sekolah Kebangsaan Harmoni melawat Kuching', yang manakah Kata Nama Khas?",a:["murid sahaja","Sekolah Kebangsaan Harmoni dan Kuching","melawat sahaja"],c:1,e:"Kedua-duanya ialah nama khusus: nama sekolah dan nama bandar."},
+{l:3,q:"Pernyataan yang tepat tentang Kata Nama Khas ialah...",a:["Merujuk sesuatu secara umum","Sentiasa ditulis dengan huruf kecil","Merujuk nama khusus dan bermula dengan huruf besar"],c:2,e:"Kata Nama Khas merujuk nama khusus dan huruf pertamanya ditulis dengan huruf besar."}
+];
+let selected="BoBoiBoy",emoji="⚡",score=0,coins=0,lives=3,lane=1,level=1,qIndex=0,paused=false,gameTimer=null,spawnTimer=null,activeItems=[],answered=new Set(),speed=1,correctStreak=0,collectedSinceQuestion=0;
+const emojis={BoBoiBoy:"⚡",Yaya:"🌸",Gopal:"🍔",Ying:"💨",Fang:"🐉",Ochobot:"🤖"};
+const laneX=[28,50,72];
+document.querySelectorAll(".char").forEach(el=>el.addEventListener("click",()=>{document.querySelectorAll(".char").forEach(x=>x.classList.remove("selected"));el.classList.add("selected");selected=el.dataset.name;emoji=emojis[selected]}));
+function updateHUD(){ $("score").textContent="⭐ "+score;$("lives").textContent="❤️".repeat(lives)+"♡".repeat(3-lives);$("coins").textContent="🪙 "+coins;$("qcount").textContent=qIndex+"/30";$("bar").style.width=(qIndex/30*100)+"%";$("levelLabel").textContent="LEVEL "+level;$("mission").textContent=["","Hutan Kata Nama","Bandar Kata Khas","Istana Bahasa"][level];$("hint").textContent=level===1?"Kumpulkan Kata Nama Am!":level===2?"Kumpulkan Kata Nama Khas!":"Bezakan kedua-dua jenis kata nama!"}
+function setLane(n){lane=Math.max(0,Math.min(2,n));$("runner").style.left=laneX[lane]+"%";$("runnerTag").style.left=laneX[lane]+"%"}
+function makeItem(){if(paused||$("game").classList.contains("hidden"))return;let isObstacle=Math.random()<.25;let word=null;if(!isObstacle){let pool=level===1?["buku","guru","kucing","meja","sekolah","Malaysia","Aina"]:level===2?["Malaysia","Sarawak","Ali","Kuching","Yaya","pensel"]:["guru","Sarawak","buku","Si Tompok","Aina","sekolah"];word=pool[Math.floor(Math.random()*pool.length)]}
+let laneN=Math.floor(Math.random()*3),el=document.createElement("div");el.className="item"+(isObstacle?" obstacle":"");el.textContent=isObstacle?["🪨","🪵","🚧"][Math.floor(Math.random()*3)]:word;el.style.left=laneX[laneN]+"%";el.style.top="-30px";$("items").appendChild(el);activeItems.push({el,lane:laneN,y:-30,word,obstacle:isObstacle,done:false})}
+function tick(){if(paused)return;let height=$("track").clientHeight;activeItems.forEach(it=>{if(it.done)return;it.y+=2.3*speed;it.el.style.top=it.y+"px";if(it.y>height-85&&it.y<height-35&&it.lane===lane){it.done=true;if(it.obstacle){lives--;updateHUD();if(lives<=0)endGame(false)}else{let qType=level===1?["buku","guru","kucing","meja","sekolah"].includes(it.word):level===2?["Malaysia","Sarawak","Ali","Kuching","Yaya"].includes(it.word):true;if(qType){score+=10;coins++;correctStreak++;}else{score=Math.max(0,score-10);correctStreak=0;showToast("Hampir! "+it.word+" bukan kategori sasaran.");}updateHUD();collectedSinceQuestion++;if(collectedSinceQuestion>=4&&qIndex<30){collectedSinceQuestion=0;showQuestion()}}it.el.remove()}if(it.y>height+20){it.done=true;it.el.remove()}});activeItems=activeItems.filter(x=>!x.done);}
+function showToast(msg){$("hint").textContent=msg;setTimeout(updateHUD,1800)}
+function showQuestion(){paused=true;let q=questionBank[qIndex];if(!q){return}let layer=$("quizLayer");layer.classList.remove("hidden");layer.innerHTML=`<div class="quiz-card"><div class="pill">Checkpoint ${qIndex+1} / 30 · Level ${q.l}</div><h3>${q.q}</h3><div class="answers">${q.a.map((a,i)=>`<button data-i="${i}">${String.fromCharCode(65+i)}. ${a}</button>`).join("")}</div><div id="feedback" class="feedback hidden"></div><div style="margin-top:12px;text-align:right"><button id="continue" disabled>Teruskan misi</button></div></div>`;
+layer.querySelectorAll(".answers button").forEach(b=>b.addEventListener("click",()=>{if(layer.dataset.answered)return;let i=+b.dataset.i,correct=i===q.c;layer.dataset.answered="1";b.classList.add(correct?"correct":"wrong");if(!correct){layer.querySelectorAll(".answers button")[q.c].classList.add("correct");score=Math.max(0,score-5);correctStreak=0}else{score+=20;correctStreak++;}let fb=$("feedback");fb.classList.remove("hidden");fb.innerHTML=`<b>${correct?"Syabas! Jawapan tepat.":"Belum tepat. Jawapan yang betul ialah "+String.fromCharCode(65+q.c)+"."}</b><br>${q.e}`;$("continue").disabled=false;updateHUD()}));
+$("continue").addEventListener("click",()=>{layer.classList.add("hidden");delete layer.dataset.answered;qIndex++;if(qIndex===10)level=2;if(qIndex===20)level=3;updateHUD();if(qIndex>=30){endGame(true);return}paused=false;});}
+function start(){score=0;coins=0;lives=3;lane=1;level=1;qIndex=0;paused=false;speed=1;collectedSinceQuestion=0;answered.clear();activeItems.forEach(x=>x.el.remove());activeItems=[];$("home").classList.add("hidden");$("result").classList.add("hidden");$("game").classList.remove("hidden");$("runner").textContent=emoji;$("runnerTag").textContent=selected;setLane(1);updateHUD();clearInterval(gameTimer);clearInterval(spawnTimer);gameTimer=setInterval(tick,30);spawnTimer=setInterval(makeItem,1450);setTimeout(showQuestion,4500)}
+function endGame(win){paused=true;clearInterval(gameTimer);clearInterval(spawnTimer);$("game").classList.add("hidden");$("result").classList.remove("hidden");$("resultText").textContent=win?`Hebat! Anda menjawab 30 soalan dan berjaya menyelamatkan Planet Bahasa. Skor akhir: ${score} · Syiling: ${coins}.`:`Permainan tamat. Skor anda: ${score} · Soalan checkpoint selesai: ${qIndex}/30. Cuba lagi untuk menyelamatkan Planet Bahasa!`;$("stars").textContent=win?(score>=600?"⭐⭐⭐":score>=400?"⭐⭐":"⭐"):"💪";}
+$("start").onclick=start;$("again").onclick=start;$("back").onclick=()=>{$("result").classList.add("hidden");$("home").classList.remove("hidden")};
+$("left").onclick=()=>setLane(lane-1);$("right").onclick=()=>setLane(lane+1);$("jump").onclick=()=>{ $("runner").style.transform="translateX(-50%) translateY(-42px)";setTimeout(()=>$("runner").style.transform="translateX(-50%)",350)};$("slide").onclick=()=>{ $("runner").style.transform="translateX(-50%) scaleY(.55)";setTimeout(()=>$("runner").style.transform="translateX(-50%)",350)};
+$("pause").onclick=()=>{paused=!paused;$("pause").textContent=paused?"▶ Sambung":"Ⅱ Jeda";if(paused){showToast("Permainan dijeda.")}else{$("pause").textContent="Ⅱ Jeda"}};
+document.addEventListener("keydown",e=>{if($("game").classList.contains("hidden")||paused)return;if(["ArrowLeft","a","A"].includes(e.key))setLane(lane-1);if(["ArrowRight","d","D"].includes(e.key))setLane(lane+1);if(["ArrowUp","w","W"," "].includes(e.key))$("jump").click();if(["ArrowDown","s","S"].includes(e.key))$("slide").click()});
+let sx=0,sy=0;$("track").addEventListener("touchstart",e=>{sx=e.changedTouches[0].screenX;sy=e.changedTouches[0].screenY},{passive:true});$("track").addEventListener("touchend",e=>{let dx=e.changedTouches[0].screenX-sx,dy=e.changedTouches[0].screenY-sy;if(Math.abs(dx)>Math.abs(dy)){setLane(lane+(dx>0?1:-1))}else if(Math.abs(dy)>25){if(dy<0)$("jump").click();else $("slide").click()}},{passive:true});
+</script>
+</body></html>
